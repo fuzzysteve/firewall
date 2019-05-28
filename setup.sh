@@ -287,8 +287,10 @@ END
 
 # Auto login root
 sed -i.org '/^ExecStart.*$/c\ExecStart=-/sbin/agetty --autologin root --noclear %I $TERM' /usr/lib/systemd/system/getty@.service
+cp /usr/lib/systemd/system/getty\@.service /etc/systemd/system/getty\@tty1.service
 sed -i.org '/^#PermitRootLogin/c\PermitRootLogin no' /etc/ssh/sshd_config
 sed -i.org "/^distroverpkg=centos-release/ a proxy=http://10.$((LOCATION)).$((LOCATION)).254:3128" /etc/yum.conf
+sed -i.org '/IPSET_SAVE_ON_STOP="no"/c\IPSET_SAVE_ON_STOP="yes"' /etc/sysconfig/ipset-config
 git config --global http.proxy http://10.$((LOCATION)).$((LOCATION)).254:3128
 
 # iproute2 tables
